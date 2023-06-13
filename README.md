@@ -1,8 +1,10 @@
 ### Первый проект на OctoberCMS:
 #### 1: проект одностраничного сайта с использованием jQuery перенесен в OctoberCMS
  ![extjs](https://github.com/olegvpc/october-first/blob/main/themes/mogo/assets/images/theme-preview.png?raw=true)
-#### 2: Pагружены и использованы plugins: blog & blog views
-#### 3: DB - MySQL
+#### 2: Pагружены и использованы plugins: blog & blog views & comments
+#### 3: Plugins comments стилизован под проект
+ ![extjs](https://github.com/olegvpc/october-first/blob/main/themes/mogo/assets/images/comments.png?raw=true)
+#### 4: DB - MySQL
 
 
 ### Установка проекта (запускается локально без Вocker)

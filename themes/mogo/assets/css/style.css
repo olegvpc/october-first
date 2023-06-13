@@ -121,8 +121,8 @@ hr {
 }
 
 .header.active {
-    background-color: #eb8b8d;
     padding: 10px 0;
+    background-color: #eb8b8d;
 }
 
 .header__inner {
@@ -287,7 +287,16 @@ hr {
     color: #333;
 }
 
+.btn--red {
+    color: #fff;
+    background-color: #eb8b8d;
+    border: 0;
+}
 
+.btn--red:hover {
+    background-color: #d63d41;
+    color: #fff;
+}
 
 /* Slider */
 .slider {
@@ -369,6 +378,7 @@ hr {
     padding: 40px 0;
     background: #e6e6e6 url("../images/map-bg.jpg") center no-repeat / cover;
 }
+
 .section--post {
     padding-top: 120px;
 }
@@ -1306,6 +1316,112 @@ hr {
 }
 
 
+/* Comments */
+
+.comments {
+    margin-top: 50px;
+}
+
+.comments__count {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+
+    border-bottom: 2px solid #eb8b8d;
+
+    font-size: 20px;
+    color: #121212;
+}
+
+.comments__reply {
+    margin-bottom: 20px;
+
+    font-size: 20px;
+    color: #121212;
+}
+
+.comments__form {
+    max-width: 600px;
+}
+
+.comments__list {
+	display: flex;
+	flex-direction: column;
+    margin: 40px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.comment {
+    min-height: 50px;
+    position: relative;
+    margin-bottom: 10px;
+    padding-left: 70px;
+}
+
+.comment__avatar {
+    width: 50px;
+    height: 50px;
+
+    position: absolute;
+    top: 10px;
+    left: 0;
+    z-index: 1;
+}
+
+.comment__avatar img {
+    width: 100%;
+    height: 100%;
+}
+
+.comment__header {
+    margin-bottom: 10px;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.comment__date {
+    margin-left: 10px;
+    font-weight: 400;
+}
+
+.comment__text {
+    margin-bottom: 10px;
+
+    font-size: 14px;
+    color: #121212;
+}
+
+.comment__reply {
+    font-size: 14px;
+    color: #121212;
+}
+
+/* Input, textarea */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.input,
+.textarea {
+    display: block;
+    width: 100%;
+    padding: .75rem 1rem;
+
+    border: 1px solid #ccc;
+
+    font-size: 16px;
+    font-family: inherit;
+}
+
+.textarea {
+    resize: vertical;
+}
+
+#comment-text {
+    min-height: 150px;
+    height: 150px;
+}
 
 
 @media (max-width: 1230px) {
@@ -1459,12 +1575,13 @@ hr {
     .section {
         padding: 40px 0;
     }
-    .section--post {
-        padding-top: 120px;
-    }
 
     .section--devices {
         padding-bottom: 0;
+    }
+
+    .section--post {
+        padding-top: 100px;
     }
 
 

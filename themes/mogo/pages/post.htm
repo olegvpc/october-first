@@ -6,6 +6,8 @@ is_hidden = 0
 [blogPost]
 slug = "{{ :slug }}"
 categoryPage = "post"
+
+[commentsPost]
 ==
 <?php
 function onEnd()
@@ -29,6 +31,8 @@ function onEnd()
         <div class="post">
             {{ post.content_html|raw }}
         </div>
+		
+		{% component 'commentsPost' %}
 
     </div>
 </section>

@@ -1,22 +1,21 @@
 {% for post in posts %}
-<li>
+<li class="comment__list-item">
     <div class="comment" id="comment-{{post.id}}">
-        <div class="comment-avatar">
+        <div class="comment__avatar">
             {{post.avatar|raw}}
         </div>
-        <div class="comment-content">
-            <div class="comment-header">
-                <span class="comment-name">{{post.name}}</span>
-                <a class="comment-date" href="#comment-{{post.id}}">
+        <div class="comment__content">
+            <div class="comment__header">
+                <span class="comment__name">{{post.name}}</span>
+                <a class="comment__date" href="#comment-{{post.id}}">
                     {{post.created_at.diffForHumans}}
                 </a>
             </div>
-            <div>{{post.content|raw}}</div>
-            <div class="comment-footer">
-                <a class="comment-reply" onclick="Comment.replay(event,'{{post.id}}')">Reply</a>
+            <div class="comment__text">{{post.content|raw}}</div>
+            <div class="comment__footer">
+                <a class="comment__reply" href="#" onclick="Comment.replay(event,'{{post.id}}')">Reply</a>
             </div>
         </div>
-        <div class="clearfix"></div>
     </div>
 
     {% if post.children %}

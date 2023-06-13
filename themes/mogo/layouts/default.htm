@@ -5,12 +5,13 @@ description = "Default layout"
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+		{% styles %}
         <link rel="stylesheet" href="{{ 'assets/css/style.css'|theme }}">
         <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Montserrat:300i,400,700&amp;subset=cyrillic-ext" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
         <title>{{ this.page.title }}</title>
-        {% styles %}
+<!--        {% styles %}-->
     </head>
     <body>
         <header class="header {% if this.page.id != 'home' %} active {% endif %}" id="header">

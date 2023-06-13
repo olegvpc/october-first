@@ -1,0 +1,17 @@
+{% set posts = __SELF__.posts %}
+
+<div class="comments" id="comments-content">
+    {% if(__SELF__.count) > 0 %}
+    <h3 class="comments__count">
+        <span id="comments-count">{{ __SELF__.count }}</span> Comments
+    </h3>
+    {% endif %}
+
+    {% if(user or __SELF__.settings.allow_guest) %}
+        {% partial "commentsPost::form" %}
+    {% endif %}
+
+    <ul class="comments__list">
+        {% partial "commentsPost::list" posts=posts %}
+    </ul>
+</div>
