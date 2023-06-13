@@ -1,0 +1,104 @@
+[blogPosts]
+pageNumber = "{{ :page }}"
+categoryFilter = "blog"
+postsPerPage = 3
+noPostsMessage = "Записей ПОКА не найдено"
+sortOrder = "published_at desc"
+categoryPage = "home"
+postPage = "post"
+==
+{% set posts = blogPosts.posts %}
+
+<div class="blog">
+    
+    {% for post in posts %}
+    <div class="blog__item">
+        <div class="blog__header">
+            <a href="{{ post.url }}">
+<!--          <img class="blog__photo" src="{{ 'assets/images/blog/1.jpg'|theme }}" alt="">-->
+                {% for image in post.featured_images|slice(0, 1) %}
+                    <img class="blog__photo" src="{{ image.path }}" alt="{{ post.title }}">
+                {% endfor %}
+            </a>
+            <div class="blog__date">
+                <div class="blog__date-day">{{ post.published_at|date('d') }}</div>
+                {{ post.published_at|date('M') }}
+            </div>
+        </div>
+        <div class="blog__content">
+            <div class="blog__title">
+                <a href="#">{{ post.title }}</a>
+            </div>
+            <div class="blog__text">{{ post.excerpt }}</div>
+        </div>
+        <div class="blog__footer">
+            <div class="blog-stat">
+                <span class="blog-stat__item">
+                    <i class="far fa-eye"></i> {{ post.views }}
+                </span>
+                <span class="blog-stat__item">
+                    <i class="far fa-comment-dots"></i> 17
+                </span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+<!--
+    <div class="blog__item">
+        <div class="blog__header">
+            <a href="#">
+                <img class="blog__photo" src="{{ 'assets/images/blog/2.jpg'|theme }}" alt="">
+            </a>
+            <div class="blog__date">
+                <div class="blog__date-day">15</div>
+                Jan
+            </div>
+        </div>
+        <div class="blog__content">
+            <div class="blog__title">
+                <a href="#">Lorem ipsum dolor sit amet</a>
+            </div>
+            <div class="blog__text">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        </div>
+        <div class="blog__footer">
+            <div class="blog-stat">
+                <span class="blog-stat__item">
+                    <i class="far fa-eye"></i> 542
+                </span>
+                <span class="blog-stat__item">
+                    <i class="far fa-comment-dots"></i> 17
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="blog__item">
+        <div class="blog__header">
+            <a href="#">
+                <img class="blog__photo" src="{{ 'assets/images/blog/3.jpg'|theme }}" alt="">
+            </a>
+            <div class="blog__date">
+                <div class="blog__date-day">15</div>
+                Jan
+            </div>
+        </div>
+        <div class="blog__content">
+            <div class="blog__title">
+                <a href="#">Lorem ipsum dolor sit amet</a>
+            </div>
+            <div class="blog__text">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        </div>
+        <div class="blog__footer">
+            <div class="blog-stat">
+                <span class="blog-stat__item">
+                    <i class="far fa-eye"></i> 542
+                </span>
+                <span class="blog-stat__item">
+                    <i class="far fa-comment-dots"></i> 17
+                </span>
+            </div>
+        </div>
+    </div>
+-->
+        </div><!-- /.blog -->

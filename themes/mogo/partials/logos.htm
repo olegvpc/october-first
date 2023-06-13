@@ -1,0 +1,48 @@
+[blogPosts]
+pageNumber = "{{ :page }}"
+categoryFilter = "logo"
+postsPerPage = 10
+noPostsMessage = "Записей не найдено"
+sortOrder = "published_at desc"
+categoryPage = "home"
+postPage = "post"
+==
+{% set logos = blogPosts.posts %}
+
+
+<div class="logos">
+<!--
+    
+    <div class="logos__item">
+        <img class="logos__img" src="{{ 'assets/images/logos/1.png'|theme }}" alt="">
+    </div>
+-->
+    {% for logo in logos %}
+    <div class="logos__item">
+        {% for image in logo.featured_images|slice(0, 1) %}
+            <img class="logos__img" src="{{ image.path }}" alt="{{ logo.title }}">
+        {% endfor %}
+    </div>
+    {% else %}
+        {{ noPostsMessage }}
+    {% endfor %}
+    
+    
+<!--
+    <div class="logos__item">
+        <img class="logos__img" src="{{ 'assets/images/logos/2.png'|theme }}" alt="">
+    </div>
+    <div class="logos__item">
+        <img class="logos__img" src="{{ 'assets/images/logos/3.png'|theme }}" alt="">
+    </div>
+    <div class="logos__item">
+        <img class="logos__img" src="{{ 'assets/images/logos/4.png'|theme }}" alt="">
+    </div>
+    <div class="logos__item">
+        <img class="logos__img" src="{{ 'assets/images/logos/5.png'|theme }}" alt="">
+    </div>
+    <div class="logos__item">
+        <img class="logos__img" src="{{ 'assets/images/logos/6.png'|theme }}" alt="">
+    </div>
+-->
+</div>

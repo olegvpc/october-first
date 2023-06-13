@@ -1,0 +1,34 @@
+title = "Post"
+url = "/post/:slug"
+layout = "default"
+is_hidden = 0
+
+[blogPost]
+slug = "{{ :slug }}"
+categoryPage = "post"
+==
+<?php
+function onEnd()
+{
+    if (!$this->post)
+        return App::make('Cms\Classes\Controller')->setStatusCode(404)->run('/404');
+}
+?>
+
+
+<section class="section  section--post">
+    <div class="container">
+
+        <div class="section__header">
+            <h2 class="section__title">{{ post.title }}</h2>
+            <div class="section__text">
+                {{ post.excerpt }}
+            </div>
+        </div>
+
+        <div class="post">
+            {{ post.content_html|raw }}
+        </div>
+
+    </div>
+</section>
