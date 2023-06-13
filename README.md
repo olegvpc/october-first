@@ -1,10 +1,8 @@
 ### Первый проект на OctoberCMS:
 #### 1: проект одностраничного сайта с использованием jQuery перенесен в OctoberCMS
  ![extjs](https://github.com/olegvpc/october-first/blob/main/themes/mogo/assets/images/theme-preview.png?raw=true)
-#### 2: Pагружены и использованы Plagins blog & blog views
+#### 2: Pагружены и использованы plugins: blog & blog views
 #### 3: DB - MySQL
-
-
 
 
 ### Установка проекта (запускается локально без Вocker)
@@ -19,14 +17,20 @@ git clone https://github.com/olegvpc/october-first
 composer install
 php artisan october:install
 ```
-* 4: Create file .env
+* 4: Create file .env & generate new kye
+```
+php artisan key:generate
+```
+
 ```
 APP_NAME="October-Tkach"
 APP_ENV=local
-APP_KEY=base64:nDtGjVtRLQeHQroQuIXaeaeY7KJC4ENI2HQkI0CCkOU=
+APP_KEY=
 APP_DEBUG=true
 APP_URL=http://localhost
 ```
+
+
 * 5: Check data of DB in config/database.php
 ```
 
