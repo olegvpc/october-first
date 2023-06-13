@@ -17,7 +17,7 @@ git clone https://github.com/olegvpc/october-first
 composer install
 php artisan october:install
 ```
-* 4: Create file .env & generate new kye
+* 4: Create file .env & generate new key
 ```
 php artisan key:generate
 ```
