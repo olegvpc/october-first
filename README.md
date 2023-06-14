@@ -4,7 +4,10 @@
 #### 2: Pагружены и использованы plugins: blog & blog views & comments
 #### 3: Plugins comments стилизован под проект
  ![extjs](https://github.com/olegvpc/october-first/blob/main/themes/mogo/assets/images/comments.png?raw=true)
-#### 4: DB - MySQL
+#### 4: Внедрение прав доступа на страницу /order в соответствии с настройками session компонента user
+ ![extjs](https://github.com/olegvpc/october-first/blob/main/themes/mogo/assets/images/user-session.png?raw=true)
+ ![extjs](https://github.com/olegvpc/october-first/blob/main/themes/mogo/assets/images/order.png?raw=true)
+#### -: DB - MySQL
 
 
 ### Установка проекта (запускается локально без Вocker)

@@ -69,7 +69,7 @@ hr {
 
 .intro__title {
     color: #fff;
-    font-size: 150px;
+    font-size: 120px;
     font-weight: 700;
     text-transform: uppercase;
     line-height: 1;
@@ -89,7 +89,7 @@ hr {
     margin-bottom: 20px;
 
     font-family: 'Kaushan Script', cursive;
-    font-size: 72px;
+    font-size: 52px;
     color: #fff;
 }
 
@@ -123,6 +123,9 @@ hr {
 .header.active {
     padding: 10px 0;
     background-color: #eb8b8d;
+}
+.display-block {
+    display: block;
 }
 
 .header__inner {

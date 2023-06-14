@@ -1,0 +1,37 @@
+title = "Order"
+url = "/order"
+layout = "default"
+is_hidden = 0
+
+[account]
+paramCode = "code"
+forceSecure = 0
+requirePassword = 0
+
+[session]
+security = "user"
+allowedUserGroups[] = "warehouse"
+allowedUserGroups[] = "admins"
+redirect = "home"
+==
+
+<!-- from component user [session] allow go in only allowed group users -->
+<section class="section  section--post">
+    <div class="container">
+
+        <div class="section__header">
+            <h2 class="section__title">User is:</h2>
+            <div class="section__text">
+                <!-- from component user [account]-->
+                {% if user %}
+                    <span class="">
+                        {% if user.client.company %}{{ user.client.company }}:{% endif %}
+                        {{ user.name }} {{ user.surname }} ({{ user.username }})
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+
+
+    </div>
+</section>

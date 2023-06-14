@@ -31,7 +31,9 @@ function onEnd()
         <div class="post">
             {{ post.content_html|raw }}
         </div>
-		
+
+		<!-- <p>{{ commentsPost.__SELF__.count }}</p> -->
+
 		{% component 'commentsPost' %}
 
     </div>
