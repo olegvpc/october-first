@@ -1,15 +1,16 @@
 <?php namespace RainLab\User\Components;
 
-use Lang;
 use Auth;
+use Lang;
 use Event;
 use Flash;
 use Request;
 use Redirect;
+use SystemException;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
+use KurtJensen\Passage\Models\Key;
 use RainLab\User\Models\UserGroup;
-use SystemException;
 
 /**
  * Session component
@@ -51,6 +52,13 @@ class Session extends ComponentBase
                 'placeholder' => '*',
                 'type'        => 'set',
                 'default'     => []
+            ],
+            'allowedUserKeys' => [
+                'title'       => 'rainlab.user::lang.session.allowed_keys_title',
+                'description' => 'rainlab.user::lang.session.allowed_keys_description',
+                'placeholder' => '*',
+                'type'        => 'set',
+                'default'     => ''
             ],
             'redirect' => [
                 'title'       => 'rainlab.user::lang.session.redirect_title',
@@ -95,6 +103,22 @@ class Session extends ComponentBase
      */
     public function onRun()
     {
+        // dump($this->property('allowedUserGroups'));
+        //exit;
+        // $keys = Key::query()->get(['name'])->toJson();
+
+        // $keys = Key::query()->groups->get(['name']);
+        // dd($this->property('allowedUserGroups'), $keys);
+        // foreach($keys as $key) {
+        //     dump($key->name);
+        //     // if($this->property('allowedUserKeys') in ) {
+
+        //     //    dump($this->property('allowedUserKeys'), $key['name']);
+        //     // }
+
+        // }
+        // exit;
+
         if ($redirect = $this->checkUserSecurityRedirect()) {
             return $redirect;
         }
@@ -200,12 +224,28 @@ class Session extends ComponentBase
     {
         $allowedGroup = $this->property('security', self::ALLOW_ALL);
         $allowedUserGroups = (array) $this->property('allowedUserGroups', []);
+        $allowedKey = $this->property('allowedUserKeys', '');
+
         $isAuthenticated = Auth::check();
+
+        // $userGroups = Auth::getUser()->groups->lists('code');
+        // // Passage Service Methods can be accessed in one of two ways:
+
+        // // $permission_keys_by_name = app('PassageService')::passageKeys();
+        // // $permission_keys_by_name = app('PassageService')::passageGroups();
+        // $permission_keys_by_name = app('PassageService')::hasGroupName('managers-prod');
+
+        // dump($allowedGroup, $allowedUserGroups, $allowedKey, $isAuthenticated, $userGroups,  $permission_keys_by_name);
+        // // 'user', [0=> 0 => "managers-prod" 1 => "admins"], "salestoken", true
+        // // exit;
+
 
         if ($isAuthenticated) {
             if ($allowedGroup == self::ALLOW_GUEST) {
                 return false;
             }
+
+
 
             if (!empty($allowedUserGroups)) {
                 $userGroups = Auth::getUser()->groups->lists('code');
@@ -216,6 +256,7 @@ class Session extends ComponentBase
         }
         else {
             if ($allowedGroup == self::ALLOW_USER) {
+                // dd('ELSE', self::ALLOW_USER);
                 return false;
             }
         }

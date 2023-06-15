@@ -10,11 +10,12 @@ requirePassword = 0
 
 [session]
 security = "user"
-allowedUserGroups[] = "warehouse"
+allowedUserGroups[] = "managers-prod"
 allowedUserGroups[] = "admins"
+allowedUserGroups[] = "accountant"
+allowedUserKeys = "salestoken"
 redirect = "home"
 ==
-
 <!-- from component user [session] allow go in only allowed group users -->
 <section class="section  section--post">
     <div class="container">
@@ -29,8 +30,33 @@ redirect = "home"
                         {{ user.name }} {{ user.surname }} ({{ user.username }})
                     </span>
                 {% endif %}
+
+                {% if inGroup('managers-prod') %}
+                <p>Урааа - это продаваны.</p>
+                {% else %}
+                <p>Это совсем не Продаваны - кто же это?".</p>
+                {% endif %}
             </div>
         </div>
+
+        {% if can('salestoken') %}
+            <div class="section__header">
+                <h2 class="section__title">Информация ниже доступна для владельцев токена (группового или персонального):</h2>
+                <div class="card">
+                    <div class="card__item">
+                        <div class="card__inner">
+                            <div class="card__img">
+                                <img src="{{ 'assets/images/about/1.jpg'|theme }}" alt="mac">
+                            </div>
+                            <div class="card__text">super team</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>Данные ниже доступны только владельцам токена.</p>
+        {% endif %}
+
 
 
     </div>
