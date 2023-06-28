@@ -2,34 +2,34 @@
 
 use Db;
 use App;
-use View;
 use Event;
 use Config;
 use Backend;
 use Request;
-use BackendMenu;
 use BackendAuth;
+use BackendMenu;
+use System\Models\EventLog;
 use Backend\Models\UserRole;
-use Twig\Extension\SandboxExtension;
-use Twig\Environment as TwigEnvironment;
+use System\Models\MailSetting;
 use System\Classes\MailManager;
 use System\Classes\ErrorHandler;
+use System\Classes\CombineAssets;
 use System\Classes\MarkupManager;
 use System\Classes\PluginManager;
-use System\Classes\SettingsManager;
 use System\Classes\UpdateManager;
+use Backend\Classes\WidgetManager;
+use System\Classes\SettingsManager;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
+use Twig\Extension\SandboxExtension;
 use System\Twig\Engine as TwigEngine;
 use System\Twig\Loader as TwigLoader;
-use System\Twig\Extension as TwigExtension;
-use System\Twig\SecurityPolicy as TwigSecurityPolicy;
-use System\Models\EventLog;
-use System\Models\MailSetting;
-use System\Classes\CombineAssets;
-use Backend\Classes\WidgetManager;
-use October\Rain\Support\ModuleServiceProvider;
-use October\Rain\Router\Helper as RouterHelper;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
+use Twig\Environment as TwigEnvironment;
+use System\Twig\Extension as TwigExtension;
+use October\Rain\Router\Helper as RouterHelper;
+use October\Rain\Support\ModuleServiceProvider;
+use System\Twig\SecurityPolicy as TwigSecurityPolicy;
 
 class ServiceProvider extends ModuleServiceProvider
 {
@@ -87,6 +87,7 @@ class ServiceProvider extends ModuleServiceProvider
      */
     public function boot()
     {
+        View::share('date', date('Y')); // добавляет (расшаривает) переменную DATE на все страницы
         // Fix UTF8MB4 support for MariaDB < 10.2 and MySQL < 5.7
         $this->applyDatabaseDefaultStringLength();
 
@@ -97,6 +98,14 @@ class ServiceProvider extends ModuleServiceProvider
             }
         }
 
+        /*
+         * Set a default samesite config value for invalid values
+         */
+        if (!in_array(strtolower(Config::get('session.same_site')), ['lax', 'strict', 'none'])) {
+            Config::set('session.same_site', 'Lax');
+        }
+
+        Paginator::useBootstrapThree();
         Paginator::defaultSimpleView('system::pagination.simple-default');
 
         /*
@@ -135,7 +144,7 @@ class ServiceProvider extends ModuleServiceProvider
     protected function registerPrivilegedActions()
     {
         $requests = ['/combine/', '@/system/updates', '@/system/install', '@/backend/auth'];
-        $commands = ['october:up', 'october:update'];
+        $commands = ['october:up', 'october:update', 'october:env', 'october:version'];
 
         /*
          * Requests
@@ -250,6 +259,8 @@ class ServiceProvider extends ModuleServiceProvider
         $this->registerConsoleCommand('october.env', 'System\Console\OctoberEnv');
         $this->registerConsoleCommand('october.install', 'System\Console\OctoberInstall');
         $this->registerConsoleCommand('october.passwd', 'System\Console\OctoberPasswd');
+        $this->registerConsoleCommand('october.version', 'System\Console\OctoberVersion');
+        $this->registerConsoleCommand('october.manifest', 'System\Console\OctoberManifest');
 
         $this->registerConsoleCommand('plugin.install', 'System\Console\PluginInstall');
         $this->registerConsoleCommand('plugin.remove', 'System\Console\PluginRemove');
@@ -284,7 +295,7 @@ class ServiceProvider extends ModuleServiceProvider
     {
         Event::listen(\Illuminate\Log\Events\MessageLogged::class, function ($event) {
             if (EventLog::useLogging()) {
-                EventLog::add($event->message, $event->level);
+                EventLog::add($event->message, $event->level, $event->context);
             }
         });
     }

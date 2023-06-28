@@ -1,7 +1,10 @@
 <?php namespace RainLab\User\Models;
 
-use October\Rain\Auth\Models\Group as GroupBase;
 use ApplicationException;
+use KurtJensen\Passage\Models\Key;
+use KurtJensen\Passage\Models\UserGroupsKeys;
+use October\Rain\Auth\Models\Group as GroupBase;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * User Group Model
@@ -28,7 +31,8 @@ class UserGroup extends GroupBase
      * @var array Relations
      */
     public $belongsToMany = [
-        'users'       => [User::class, 'table' => 'users_groups'],
+        'users' => [User::class, 'table' => 'users_groups', 'timestamps' => true,],
+        // 'group_keys' => [Key::class,  'timestamps' => true, 'table' => 'kurtjensen_passage_groups_keys'],
         'users_count' => [User::class, 'table' => 'users_groups', 'count' => true]
     ];
 
@@ -40,6 +44,11 @@ class UserGroup extends GroupBase
         'code',
         'description'
     ];
+
+    // public function passage_keys (): HasMany
+    // {
+    //     return $this->hasMany(UserGroupsKeys::class);
+    // }
 
     protected static $guestGroup = null;
 

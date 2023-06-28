@@ -6,11 +6,14 @@ use Event;
 use Flash;
 use Request;
 use Redirect;
+use PassageService;
 use SystemException;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use KurtJensen\Passage\Models\Key;
 use RainLab\User\Models\UserGroup;
+use KurtJensen\Passage\Models\Variance;
+
 
 /**
  * Session component
@@ -224,20 +227,42 @@ class Session extends ComponentBase
     {
         $allowedGroup = $this->property('security', self::ALLOW_ALL);
         $allowedUserGroups = (array) $this->property('allowedUserGroups', []);
-        $allowedKey = $this->property('allowedUserKeys', '');
+        $allowedUserKeys = $this->property('allowedUserKeys', '');
 
         $isAuthenticated = Auth::check();
+        $userGroups = [];
+        if($isAuthenticated) {
+            $userGroups = Auth::getUser()->groups->lists('code');
+        }
 
-        // $userGroups = Auth::getUser()->groups->lists('code');
         // // Passage Service Methods can be accessed in one of two ways:
 
-        // // $permission_keys_by_name = app('PassageService')::passageKeys();
-        // // $permission_keys_by_name = app('PassageService')::passageGroups();
+        $permission_keys_by_name = app('PassageService')::passageKeys(); // все ключи пользователя (из двух БД)
+        $permission_groups_by_name = app('PassageService')::passageGroups(); // все группы с ключами в которые входит пользователь
         // $permission_keys_by_name = app('PassageService')::hasGroupName('managers-prod');
+        $user_id = null;
+        if($isAuthenticated){
+            $user_id = Auth::getUser()->id;
+        }
+        $user_in_variance = Variance::query()->where('user_id', $user_id)->first();
+        $user_id_in_variance = $user_in_variance ? $user_in_variance->toArray()['user_id'] : null;
 
-        // dump($allowedGroup, $allowedUserGroups, $allowedKey, $isAuthenticated, $userGroups,  $permission_keys_by_name);
+        // dump($allowedGroup,
+        //     $allowedUserGroups,
+        //     $allowedUserKeys,
+        //     $isAuthenticated,
+        //     $userGroups,
+        //     $permission_keys_by_name,
+        //     $permission_groups_by_name,
+        //     Auth::getUser()->id,
+        //     // Variance::query()->where('user_id', Auth::getUser()->id,)->first()->toJson(),
+        //     // "{"id":2,"user_id":3,"key_id":2,"grant":1,"check_one":0,"description":"personal token","created_at":...}"
+        //     $user_in_variance, // 3
+        //     $user_id_in_variance
+
+        // );
         // // 'user', [0=> 0 => "managers-prod" 1 => "admins"], "salestoken", true
-        // // exit;
+        // exit;
 
 
         if ($isAuthenticated) {
@@ -246,13 +271,23 @@ class Session extends ComponentBase
             }
 
 
-
             if (!empty($allowedUserGroups)) {
                 $userGroups = Auth::getUser()->groups->lists('code');
                 if (!count(array_intersect($allowedUserGroups, $userGroups))) {
+
+                    if ($allowedUserKeys != '') {
+//                      $keys = app('PassageService')::passageKeys(); // Get all permision keys for the user in an array
+                        $keys = PassageService::passageKeys(); // Using Alias Get all permision keys for the user in an array
+                        // dump($keys);
+
+                        if (in_array($allowedUserKeys, $keys) && $user_id === $user_id_in_variance) {
+                            return true;
+                        }
+                    }
                     return false;
                 }
             }
+
         }
         else {
             if ($allowedGroup == self::ALLOW_USER) {

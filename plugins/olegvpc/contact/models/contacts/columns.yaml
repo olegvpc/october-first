@@ -1,0 +1,14 @@
+columns:
+    first_name:
+        label: Name
+        type: text
+    last_name:
+        label: Sur-Name
+        type: text
+    email:
+        label: Email
+        type: text
+    content:
+        label: 'saurabhdhariwal.comments::lang.comment.content'
+        type: text
+

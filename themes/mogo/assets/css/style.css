@@ -1426,6 +1426,11 @@ hr {
     height: 150px;
 }
 
+.text-danger {
+    color: red;
+    font-size: 10px;
+}
+
 
 @media (max-width: 1230px) {
 

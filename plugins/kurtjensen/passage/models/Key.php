@@ -1,6 +1,9 @@
 <?php namespace KurtJensen\Passage\Models;
 
 use Model;
+use October\Rain\Database\Relations\HasMany;
+use KurtJensen\Passage\Models\UserGroupsKeys;
+use RainLab\User\Models\UserGroup;
 
 /**
  * Key Model
@@ -23,11 +26,13 @@ class Key extends Model
      */
     protected $fillable = [];
 
+
     /**
      * @var array Relations
      */
     public $belongsToMany = [
         'groups' => ['RainLab\User\Models\UserGroup',
+            'timestamps' => true,
             'table' => 'kurtjensen_passage_groups_keys',
             'key' => 'key_id',
             'otherkey' => 'user_group_id',

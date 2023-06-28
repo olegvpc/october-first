@@ -80,6 +80,7 @@ class ServiceProvider extends ModuleServiceProvider
             $combiner->registerBundle('~/modules/backend/formwidgets/colorpicker/assets/less/colorpicker.less');
             $combiner->registerBundle('~/modules/backend/formwidgets/permissioneditor/assets/less/permissioneditor.less');
             $combiner->registerBundle('~/modules/backend/formwidgets/markdowneditor/assets/less/markdowneditor.less');
+            $combiner->registerBundle('~/modules/backend/formwidgets/sensitive/assets/less/sensitive.less');
 
             /*
              * Rich Editor is protected by DRM
@@ -164,10 +165,16 @@ class ServiceProvider extends ModuleServiceProvider
                 'backend.manage_editor' => [
                     'label' => 'system::lang.permissions.manage_editor',
                     'tab'   => 'system::lang.permissions.name',
+                    'roles' => UserRole::CODE_DEVELOPER,
+                ],
+                'backend.manage_own_editor' => [
+                    'label' => 'system::lang.permissions.manage_own_editor',
+                    'tab'   => 'system::lang.permissions.name',
                 ],
                 'backend.manage_branding' => [
                     'label' => 'system::lang.permissions.manage_branding',
                     'tab'   => 'system::lang.permissions.name',
+                    'roles' => UserRole::CODE_DEVELOPER,
                 ],
                 'media.manage_media' => [
                     'label' => 'backend::lang.permissions.manage_media',
@@ -202,6 +209,7 @@ class ServiceProvider extends ModuleServiceProvider
             $manager->registerFormWidget('Backend\FormWidgets\TagList', 'taglist');
             $manager->registerFormWidget('Backend\FormWidgets\MediaFinder', 'mediafinder');
             $manager->registerFormWidget('Backend\FormWidgets\NestedForm', 'nestedform');
+            $manager->registerFormWidget('Backend\FormWidgets\Sensitive', 'sensitive');
         });
     }
 

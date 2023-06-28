@@ -1,0 +1,22 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+
+    first_name:
+        label: Name
+        span: auto
+    last_name:
+        label: Sur-Name
+        span: auto
+    email:
+        span: auto
+        label: Email
+
+    content:
+        label: Content from Contact
+        size: small
+        oc.commentPosition: ''
+        span: full
+        type: richeditor

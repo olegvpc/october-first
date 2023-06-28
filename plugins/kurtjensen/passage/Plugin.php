@@ -39,6 +39,7 @@ class Plugin extends PluginBase {
 	public function boot() {
 		UserGroup::extend(function ($model) {
 			$model->belongsToMany['passage_keys'] = ['KurtJensen\Passage\Models\Key',
+                'timestamps' => true,
 				'table' => 'kurtjensen_passage_groups_keys',
 				'key' => 'user_group_id',
 				'otherKey' => 'key_id',

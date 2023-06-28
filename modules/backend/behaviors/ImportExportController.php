@@ -11,10 +11,11 @@ use Backend\Behaviors\ImportExportController\TranscodeFilter;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use League\Csv\Reader as CsvReader;
 use League\Csv\Writer as CsvWriter;
-use October\Rain\Parse\League\EscapeFormula as CsvEscapeFormula;
+use League\Csv\EscapeFormula as CsvEscapeFormula;
 use ApplicationException;
 use SplTempFileObject;
 use Exception;
+use League\Csv\Statement;
 
 /**
  * Adds features for importing and exporting data.
@@ -250,10 +251,13 @@ class ImportExportController extends ControllerBehavior
         $reader = $this->createCsvReader($path);
 
         if (post('first_row_titles')) {
-            $reader->setOffset(1);
+            $reader->setHeaderOffset(1);
         }
 
-        $result = $reader->setLimit(50)->fetchColumn((int) $columnId);
+        $result = (new Statement())
+            ->limit(50)
+            ->process($reader)
+            ->fetchColumn((int) $columnId);
         $data = iterator_to_array($result, false);
 
         /*
@@ -624,9 +628,7 @@ class ImportExportController extends ControllerBehavior
         $csv->setDelimiter($options['delimiter']);
         $csv->setEnclosure($options['enclosure']);
         $csv->setEscape($options['escape']);
-
-        // Temporary until upgrading to league/csv >= 9.1.0 (will be $csv->addFormatter($formatter))
-        $formatter = new CsvEscapeFormula();
+        $csv->addFormatter(new CsvEscapeFormula());
 
         /*
          * Add headers
@@ -661,9 +663,6 @@ class ImportExportController extends ControllerBehavior
                 }
                 $record[] = $value;
             }
-
-            // Temporary until upgrading to league/csv >= 9.1.0
-            $record = $formatter($record);
 
             $csv->insertOne($record);
         }
@@ -808,9 +807,9 @@ class ImportExportController extends ControllerBehavior
 
         if (
             $options['encoding'] !== null &&
-            $reader->isActiveStreamFilter()
+            $reader->supportsStreamFilter()
         ) {
-            $reader->appendStreamFilter(sprintf(
+            $reader->addStreamFilter(sprintf(
                 '%s%s:%s',
                 TranscodeFilter::FILTER_NAME,
                 strtolower($options['encoding']),

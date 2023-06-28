@@ -1,0 +1,17 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+name: Contacts
+modelClass: Olegvpc\Contact\Models\Contact
+form: $/olegvpc/contact/models/contacts/fields.yaml
+defaultRedirect: olegvpc/contact/contacts
+create:
+    title: New Contact
+    redirect: 'olegvpc/contact/contacts/update/:id'
+    redirectClose: olegvpc/contact/contacts
+update:
+    title: Edit Contact
+    redirect: olegvpc/contact/contacts
+    redirectClose: olegvpc/contact/contacts
+preview: {  }

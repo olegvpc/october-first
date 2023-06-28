@@ -10,10 +10,10 @@ requirePassword = 0
 
 [session]
 security = "user"
-allowedUserGroups[] = "managers-prod"
+
 allowedUserGroups[] = "admins"
 allowedUserGroups[] = "accountant"
-allowedUserKeys = "salestoken"
+allowedUserKeys = "personal_sales_token"
 redirect = "home"
 ==
 <!-- from component user [session] allow go in only allowed group users -->
@@ -39,7 +39,7 @@ redirect = "home"
             </div>
         </div>
 
-        {% if can('salestoken') %}
+        {% if can('personal_sales_token') %}
             <div class="section__header">
                 <h2 class="section__title">Информация ниже доступна для владельцев токена (группового или персонального):</h2>
                 <div class="card">
